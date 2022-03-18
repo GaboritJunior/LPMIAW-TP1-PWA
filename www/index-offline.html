@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Demo App OFFLINE</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/dark-onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+</head>
+
+<body>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        .texte {
+            text-align: center;
+        }
+    </style>
+
+    <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
+    <template id="page1.html">
+        <ons-page id="page1">
+            <ons-toolbar>
+                <div class="center">Home</div>
+            </ons-toolbar>
+            <ons-card>
+                <p class="texte">Bienvenue sur l'application</p>
+
+                <ons-button onclick="myNavigator.pushPage('page2.html')" modifier="large" id="push-button">Acceder a
+                    l'application</ons-button>
+
+                <br>
+                <ons-button modifier="large" id="b_contacts">Contact</ons-button>
+                <br>
+
+                <p class="texte">Créer par Junior GABORIT</p>
+            </ons-card>
+        </ons-page>
+    </template>
+
+    <template id="page2.html">
+        <ons-page id="page2">
+            <ons-toolbar>
+                <div class="center">Calcul de dates</div>
+            </ons-toolbar>
+            <ons-card>
+                <h2>Saisir les dates</h2>
+                <form id="saisie">
+                    <p>Date d'anniversaire</p>
+                    <input type="date" name="bdate">
+                    <p>Date du jour</p>
+                    <input type="date" name="sdate">
+                    <br>
+                    <br>
+                    <ons-button modifier="large" onclick="calculDate()">Calcul</ons-button>
+                    <br>
+                    <br>
+                    <ons-button modifier="large" id="b_contacts">Contact</ons-button>
+                    <br>
+                </form>
+            </ons-card>
+            <ons-card id="reponse"></ons-card>
+        </ons-page>
+    </template>
+</body>
+
+<script>
+    var myNavigator = document.getElementById('myNavigator');
+
+    function daysDifference(bdate, sdate) {
+
+        var diff = new Date(sdate).setHours(12) - new Date(bdate).setHours(12);
+        return Math.round(diff / 8.64e7);
+
+    }
+
+    function calculDate() {
+
+        var bdate = document.getElementById("saisie").elements[0].value;
+        var sdate = document.getElementById("saisie").elements[1].value;
+        var diff = daysDifference(bdate, sdate);
+        document.getElementById("reponse").innerHTML = diff + " Jours";
+
+    }
+
+    document.getElementById("b_contacts").addEventListener('click', async () => {
+        console.log("Test contact");
+        if ((await navigator.contacts.getProperties()).includes('name')) {
+            const contacts = await navigator.contacts.select(['name']);
+            if (!contacts.length) {
+                // No contacts were selected in the picker.
+                return;
+            }
+            // length is 1 since we didn’t request multiple contacts.
+            alert(contacts[0].name);
+        }
+        // Fallback ... contact picker not supported
+    });
+
+</script>
+
+</html>

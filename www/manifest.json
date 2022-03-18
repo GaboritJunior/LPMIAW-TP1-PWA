@@ -1,0 +1,21 @@
+{
+    "short_name": "DateCalc",
+    "name": "Date Calculator",
+    "description": "Time span calculation App illustrating PWA dev",
+    "start_url": "index.html",
+    "display": "fullscreen",
+    "icons": [
+    {
+    "src": "./images/app-icon-192.png",
+    "type": "image/png",
+    "sizes": "192x192"
+    },
+    {
+    "src": "./images/app-icon-512.png",
+    "type": "image/png",
+    "sizes": "512x512"
+    }
+    ],
+    "background_color": "#242424"
+    }
+    
